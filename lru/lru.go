@@ -1,4 +1,4 @@
-package xsync
+package lru
 
 import (
 	"container/list"
@@ -26,10 +26,10 @@ type entry[V any] struct {
 	value V
 }
 
-// NewLru creates a new Lru.
+// New creates a new Lru.
 // If maxEntries is zero, the cache has no limit, and it's assumed
 // that eviction is done by the caller.
-func NewLru[V any](maxEntries int) *Lru[V] {
+func New[V any](maxEntries int) *Lru[V] {
 	return &Lru[V]{
 		MaxEntries: maxEntries,
 		ll:         list.New(),

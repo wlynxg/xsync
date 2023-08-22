@@ -1,4 +1,4 @@
-package xsync
+package lru
 
 import (
 	"fmt"
@@ -31,7 +31,7 @@ var getTests = []struct {
 
 func TestGet(t *testing.T) {
 	for _, tt := range getTests {
-		lru := NewLru[int](0)
+		lru := New[int](0)
 		lru.Add(tt.keyToAdd, 1234)
 		val, ok := lru.Get(tt.keyToGet)
 		if ok != tt.expectedOk {
@@ -43,7 +43,7 @@ func TestGet(t *testing.T) {
 }
 
 func TestRemove(t *testing.T) {
-	lru := NewLru[int](0)
+	lru := New[int](0)
 	lru.Add("myKey", 1234)
 	if val, ok := lru.Get("myKey"); !ok {
 		t.Fatal("TestRemove returned no match")
@@ -63,7 +63,7 @@ func TestEvict(t *testing.T) {
 		evictedKeys = append(evictedKeys, key)
 	}
 
-	lru := NewLru[int](20)
+	lru := New[int](20)
 	lru.OnEvicted = onEvictedFun
 	for i := 0; i < 22; i++ {
 		lru.Add(fmt.Sprintf("myKey%d", i), 1234)
